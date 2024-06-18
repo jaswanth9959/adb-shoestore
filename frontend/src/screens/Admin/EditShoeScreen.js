@@ -54,7 +54,8 @@ export default function EditShoeScreen() {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    const sizeOptions = sizeoptions.split(",").map((o) => ({
+    console.log(sizeoptions);
+    const sizeOptions = sizeoptions.map((o) => ({
       size: o.split("-")[0],
       stock: Number(o.split("-")[1]),
     }));
@@ -103,9 +104,7 @@ export default function EditShoeScreen() {
       setImage(shoe.image);
       setGender(shoe.gender);
       setPrice(shoe.price);
-      setSizeoptions(
-        shoe.sizeOptions.map((o) => "size " + o.size + "-" + o.stock)
-      );
+      setSizeoptions(shoe.sizeOptions.map((o) => o.size + "-" + o.stock));
     }
   }, [shoe]);
 

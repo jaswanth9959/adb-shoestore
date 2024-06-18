@@ -147,13 +147,13 @@ function OrderScreen() {
                       >
                         Quantity: {product.qty}
                       </Typography>
-                      <Typography
+                      {/* <Typography
                         component={"span"}
                         variant={"body2"}
                         color="textSecondary"
                       >
                         Color: {product.color?.toUpperCase()}
-                      </Typography>
+                      </Typography> */}
                       <Typography
                         component={"span"}
                         variant={"body2"}
