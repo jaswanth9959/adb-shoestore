@@ -37,7 +37,6 @@ export default function EditShoeScreen() {
   const { id: shoeId } = useParams();
   const [name, setName] = useState("");
   const [brand, setBrand] = useState("");
-  const [stock, setStock] = useState("");
   const [color, setColor] = useState("");
   const [price, setPrice] = useState("");
   const [gender, setGender] = useState("");
@@ -55,7 +54,12 @@ export default function EditShoeScreen() {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    const sizeOptions = sizeoptions.split(",").map((o) => o.trim());
+    const sizeOptions = sizeoptions.split(",").map((o) => ({
+      size: o.split("-")[0],
+      stock: Number(o.split("-")[1]),
+    }));
+
+    console.log(sizeOptions);
     try {
       await update({
         shoeId,
@@ -66,7 +70,6 @@ export default function EditShoeScreen() {
         price,
         description,
         color,
-        stock,
         image,
         sizeOptions,
       }).unwrap();
@@ -98,10 +101,11 @@ export default function EditShoeScreen() {
       setColor(shoe.color);
       setDescription(shoe.description);
       setImage(shoe.image);
-      setStock(shoe.stock);
       setGender(shoe.gender);
       setPrice(shoe.price);
-      setSizeoptions(shoe.sizeOptions.join(","));
+      setSizeoptions(
+        shoe.sizeOptions.map((o) => "size " + o.size + "-" + o.stock)
+      );
     }
   }, [shoe]);
 
@@ -187,7 +191,7 @@ export default function EditShoeScreen() {
                     onChange={(e) => setGender(e.target.value)}
                   />
                 </Grid>
-                <Grid item xs={12}>
+                {/* <Grid item xs={12}>
                   <TextField
                     required
                     fullWidth
@@ -197,7 +201,7 @@ export default function EditShoeScreen() {
                     name="ssn"
                     onChange={(e) => setStock(e.target.value)}
                   />
-                </Grid>
+                </Grid> */}
                 <Grid item xs={12}>
                   <TextField
                     required

@@ -27,6 +27,7 @@ function PaymentScreen() {
   const [createOrder, { isLoading, error }] = useCreateOrderMutation();
   const [card, setCard] = useState("");
   const [cvv, setCvv] = useState("");
+  const [name, setName] = useState("");
   const [exp, setExp] = useState("");
   const [isWarranty, setIsWarranty] = useState(false);
 
@@ -56,12 +57,13 @@ function PaymentScreen() {
         itemsPrice: itemsPrice,
         shippingPrice: shippingPrice,
         taxPrice: taxPrice,
+        cardHolder: name,
         totalPrice: `${
           isWarranty ? addDecimals(Number(totalPrice) + 10) : totalPrice
         }`,
         isWarranty,
       }).unwrap();
-      console.log(res);
+
       dispatch(clearcart());
       navigate(`/order/${res._id}`);
     } catch (err) {
@@ -254,7 +256,7 @@ function PaymentScreen() {
                 Payment Method: Card
               </Typography>
               <Paper
-                sx={{ mt: 1, p: 4, position: "relative", height: "310px" }}
+                sx={{ mt: 1, p: 4, position: "relative", height: "360px" }}
               >
                 <Typography variant="h5">Card Details:</Typography>
                 <TextField
@@ -293,6 +295,18 @@ function PaymentScreen() {
                   value={exp}
                   onChange={(e) => setExp(e.target.value)}
                   placeholder="mm/yyyy"
+                />
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  type="text"
+                  placeholder="Card Holder Name"
+                  id="cvv1"
+                  label="Card Holder Name"
+                  name="holder"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                 />
                 <Button
                   variant="contained"

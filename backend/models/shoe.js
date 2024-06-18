@@ -63,14 +63,12 @@ const shoeSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    stock: {
-      type: Number,
-      required: true,
-    },
-    sizeOptions: {
-      type: Array,
-      required: true,
-    },
+    sizeOptions: [
+      {
+        size: { type: String, required: true },
+        stock: { type: Number, required: true, default: 10 },
+      },
+    ],
     isReviewed: {
       type: Boolean,
       default: false,

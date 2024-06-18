@@ -73,24 +73,24 @@ const updateStaff = asyncHandler(async (req, res) => {
 });
 
 const updateStaffProfile = asyncHandler(async (req, res) => {
-  const user = await Staff.findById(req.params.id);
+  const User = await Staff.findById(req.params.id);
 
-  if (user) {
-    user.firstname = req.body.firstname || user.firstname;
-    user.lastname = req.body.lastname || user.lastname;
-    user.email = req.body.email || user.email;
-    user.ssn = req.body.ssn || user.ssn;
-    user.dob = req.body.dob || user.dob;
-    user.phone = req.body.phone || user.phone;
+  if (User) {
+    User.firstname = req.body.firstname || User.firstname;
+    User.lastname = req.body.lastname || User.lastname;
+    User.email = req.body.email || User.email;
+    User.ssn = req.body.ssn || User.ssn;
+    User.dob = req.body.dob || User.dob;
+    User.phone = req.body.phone || User.phone;
 
     if (req.body.password) {
-      user.password = req.body.password;
+      User.password = req.body.password;
     }
 
-    const updatedUser = await user.save();
+    const user = await User.save();
 
     res.json({
-      updatedUser,
+      user,
     });
   } else {
     res.status(404);

@@ -33,6 +33,9 @@ const orderSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    cardHolder: {
+      type: String,
+    },
     paymentID: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Payment",

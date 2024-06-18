@@ -11,14 +11,16 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useStaffprofileMutation } from "../../slices/staffApiSlice";
+import { setCredentials } from "../../slices/authSlice";
 import { toast } from "react-toastify";
 const defaultTheme = createTheme();
 
 export default function StaffProfileScreen() {
+  const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.auth);
   const [firstname, setFirstname] = useState(userInfo.user.firstname);
   const [lastname, setLastname] = useState(userInfo.user.lastname);
@@ -38,7 +40,7 @@ export default function StaffProfileScreen() {
       window.alert("passwords did not match!");
     } else {
       try {
-        await register({
+        const res = await register({
           staffId: userInfo.user._id,
           firstname,
           lastname,
@@ -49,8 +51,11 @@ export default function StaffProfileScreen() {
           ssn,
           role: "delivery",
         }).unwrap();
+        dispatch(setCredentials({ ...res }));
+        setPassword("");
+        setConfirmPassword("");
         toast.success("Staff Profile Update!");
-        navigate("/admin/staff");
+        // navigate("/admin/staff");
       } catch (err) {
         toast.error(err?.data?.message || err.error);
       }

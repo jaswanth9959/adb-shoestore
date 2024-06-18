@@ -87,11 +87,10 @@ function OrderScreen() {
           ) : (
             <Typography variant="body1" color="#f4c648">
               Order Is Not Covered in Warranty.
-              {new Date(date).toLocaleDateString("en-US")}.
             </Typography>
           )}
           <List>
-            {order.orderItems.map((product) => (
+            {order?.orderItems?.map((product) => (
               <ListItem
                 key={product._id}
                 alignItems="flex-start"
@@ -255,6 +254,9 @@ function OrderScreen() {
                   <strong>Paid</strong>
                 </Typography>
               )}
+            </Typography>
+            <Typography component={"h6"} variant={"h6"} color="textSecondary">
+              Paid With: {order.cardHolder}'s card
             </Typography>
             <Typography component={"h6"} variant={"h6"} color="textSecondary">
               Paid On: {new Date(order.paidAt).toLocaleDateString("en-US")}{" "}

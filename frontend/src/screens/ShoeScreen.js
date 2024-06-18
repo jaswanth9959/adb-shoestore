@@ -39,18 +39,17 @@ function ShoeScreen() {
     isError,
     refetch,
   } = useGetShoeByIdQuery(shoeId);
-  const [size, setSize] = useState("");
+  const [si, setSi] = useState(" ");
   const [qty, setQty] = useState(1);
   const [err, setErr] = useState(false);
-
   const handleChange = (e) => {
-    setSize(e.target.value);
+    setSi(e.target.value);
   };
   const handleQty = (e) => {
     setQty(e.target.value);
   };
-  const addtocartHandler = () => {
-    if (size === "") {
+  const addtocartHandler = (e) => {
+    if (si === "") {
       setErr(true);
       return;
     } else {
@@ -63,7 +62,8 @@ function ShoeScreen() {
           image: shoe.image,
           category: shoe.category.name,
           color: shoe.color,
-          size,
+          size: si.split("!")[0],
+          selectedId: si.split("!")[1],
           qty,
         })
       );
@@ -191,13 +191,17 @@ function ShoeScreen() {
                     required
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    value={size}
+                    value={si}
                     label="size"
-                    onChange={handleChange}
+                    onChange={(e) => handleChange(e)}
                   >
                     {shoe.sizeOptions.map((size) => (
-                      <MenuItem key={size} value={size}>
-                        {size}
+                      <MenuItem
+                        key={size.size}
+                        id={size._id}
+                        value={size.size + "!" + size._id}
+                      >
+                        {size.size}({size.stock} left)
                       </MenuItem>
                     ))}
                   </Select>

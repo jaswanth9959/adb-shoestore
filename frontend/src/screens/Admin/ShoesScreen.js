@@ -43,7 +43,6 @@ function ShoesScreen() {
               <TableRow>
                 <TableCell align="center">Name</TableCell>
                 <TableCell align="center">Brand</TableCell>
-                <TableCell align="center">Stock</TableCell>
                 <TableCell align="center">Category</TableCell>
                 <TableCell align="center">Gender</TableCell>
                 <TableCell align="center">Color</TableCell>
@@ -65,7 +64,6 @@ function ShoesScreen() {
                         {shoe.name}
                       </TableCell>
                       <TableCell align="center">{shoe.brand}</TableCell>
-                      <TableCell align="center">{shoe.stock}</TableCell>
                       <TableCell align="center">{shoe.category.name}</TableCell>
                       <TableCell align="center">{shoe.gender}</TableCell>
                       <TableCell align="center">{shoe.color}</TableCell>

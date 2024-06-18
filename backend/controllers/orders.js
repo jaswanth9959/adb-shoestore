@@ -4,6 +4,7 @@ import Order from "../models/order.js";
 import Payment from "../models/payment.js";
 import Shoe from "../models/shoe.js";
 import Review from "../models/review.js";
+import mongoose from "mongoose";
 
 const addOrderItems = asyncHandler(async (req, res) => {
   const {
@@ -16,6 +17,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
     shippingPrice,
     totalPrice,
     email,
+    cardHolder,
     cardNumber,
     isWarranty,
   } = req.body;
@@ -37,7 +39,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
     isPaid: true,
     paymentID: createdPayment._id,
     paidAt: Date.now(),
-
+    cardHolder,
     shippingAddress,
     paymentMethod,
     itemsPrice,
@@ -49,6 +51,34 @@ const addOrderItems = asyncHandler(async (req, res) => {
 
   const createdOrder = await order.save();
   res.status(201).json(createdOrder);
+  // console.log(orderItems);
+  for (const item in orderItems) {
+    // console.log(orderItems[item]);
+    const product = await Shoe.findOne({
+      "sizeOptions._id": new mongoose.Types.ObjectId(
+        orderItems[item].selectedId
+      ),
+    });
+    if (product) {
+      // Find the index of the variant
+      const variantIndex = product.sizeOptions.findIndex(
+        (variant) => variant._id.toString() === orderItems[item].selectedId
+      );
+      const updatedData = {
+        stock: product.sizeOptions[variantIndex].stock - orderItems[item].qty,
+      };
+
+      if (variantIndex !== -1) {
+        // Update the variant
+        Object.assign(product.sizeOptions[variantIndex], updatedData);
+        await product.save();
+      } else {
+        console.log("Variant not found");
+      }
+    } else {
+      console.log("Product containing the variant not found");
+    }
+  }
 });
 
 const getMyOrders = asyncHandler(async (req, res) => {

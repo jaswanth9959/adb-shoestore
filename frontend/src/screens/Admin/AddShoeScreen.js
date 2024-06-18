@@ -38,7 +38,6 @@ export default function AddShoeScreen() {
   const { userInfo } = useSelector((state) => state.auth);
   const [name, setName] = useState("");
   const [brand, setBrand] = useState("");
-  const [stock, setStock] = useState("");
   const [color, setColor] = useState("");
   const [price, setPrice] = useState("");
   const [gender, setGender] = useState("");
@@ -56,7 +55,10 @@ export default function AddShoeScreen() {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    const sizeOptions = sizeoptions.split(",").map((o) => o.trim());
+    const sizeOptions = sizeoptions.split(",").map((o) => ({
+      size: o.split("-")[0],
+      stock: Number(o.split("-")[1]),
+    }));
     try {
       await create({
         userId: userInfo.user._id,
@@ -67,7 +69,6 @@ export default function AddShoeScreen() {
         price,
         description,
         color,
-        stock,
         image,
         sizeOptions,
       }).unwrap();
@@ -169,7 +170,7 @@ export default function AddShoeScreen() {
                     onChange={(e) => setGender(e.target.value)}
                   />
                 </Grid>
-                <Grid item xs={12}>
+                {/* <Grid item xs={12}>
                   <TextField
                     required
                     fullWidth
@@ -178,7 +179,7 @@ export default function AddShoeScreen() {
                     name="ssn"
                     onChange={(e) => setStock(e.target.value)}
                   />
-                </Grid>
+                </Grid> */}
                 <Grid item xs={12}>
                   <TextField
                     required
@@ -217,7 +218,7 @@ export default function AddShoeScreen() {
                     fullWidth
                     name="confirmpassword"
                     label="sizeOptions"
-                    placeholder="Enter comma(,) sepearated values"
+                    placeholder="Enter value in size-stock, size-stock ... format"
                     id="password2"
                     value={sizeoptions}
                     onChange={(e) => setSizeoptions(e.target.value)}

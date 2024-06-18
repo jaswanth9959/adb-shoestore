@@ -17,7 +17,6 @@ const createShoe = asyncHandler(async (req, res) => {
     name,
     category,
     brand,
-    stock,
     image,
     description,
     sizeOptions,
@@ -30,7 +29,6 @@ const createShoe = asyncHandler(async (req, res) => {
     name,
     category,
     brand,
-    stock,
     image,
     description,
     sizeOptions,
@@ -51,7 +49,6 @@ const updateShoe = asyncHandler(async (req, res) => {
     name,
     category,
     brand,
-    stock,
     image,
     description,
     sizeOptions,
@@ -71,7 +68,6 @@ const updateShoe = asyncHandler(async (req, res) => {
     item.category = category;
     item.color = color;
     item.brand = brand;
-    item.stock = stock;
     item.gender = gender;
     const updateditem = await item.save();
     res.json(updateditem);
